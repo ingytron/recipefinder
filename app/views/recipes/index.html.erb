@@ -1,0 +1,33 @@
+<div class="centered">
+
+<h1>Recipe List</h1>
+
+<h2>Searching for <span class="highlight"><%= @search_term %></span></h2>
+
+<div>
+  <form action"<%= root_path %>" method="GET">
+    <%= text_field_tag :search, params[:search], placeholder: "Search for a recipe" %>
+    <%= submit_tag "Search", name: nil %>
+  </form>
+</div>
+
+
+<% if (@recipes.nil? || @recipes == []) %>
+  <p>Sorry, no recipes were found for your search</p>
+<% end %>
+
+<table>
+  <tr>
+    <th><h4>Image</h4></th>
+    <th><h4>Title</h4></th>
+    <th><h4>Social Rank</h4></th>
+  </tr>
+  <% @recipes.each do |recipe| %>
+    <tr class=<%= cycle('even', 'odd') %>>
+      <td><%= link_to( image_tag(recipe["image_url"], height: 100, width: 100), recipe['source_url']) %></td>
+      <td><%= link_to(sanitize(recipe["title"]), recipe["source_url"]) %></td>
+      <td><p><%= recipe["social_rank"].to_f.round(1) %></p></td>
+    </tr>
+  <% end %>
+</table>
+</div>
